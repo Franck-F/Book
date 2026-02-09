@@ -1,0 +1,83 @@
+---
+title: "Fine-tuning de BERT : Guide Avancé NLP"
+description: "Maîtrisez l'art d'adapter BERT (Bidirectional Encoder Representations from Transformers) à vos besoins spécifiques. Apprenez à transformer un modèle pré-entraîné en un expert de votre domaine."
+difficulty: "Avancé"
+duration: "45 min"
+technologies: ["Transformers", "PyTorch", "Hugging Face", "BERT"]
+category: "NLP"
+date: "2026-01-20"
+---
+
+# BERT : La Puissance de l'Attention Bidirectionnelle
+
+Depuis sa sortie par Google, **BERT** a révolutionné le traitement du langage naturel (NLP). Sa force réside dans sa capacité à comprendre le contexte d'un mot en regardant à la fois ce qui précède et ce qui suit.
+
+## 1. Préparation de la Tâche de Classification
+
+Le fine-tuning consiste à ajouter une couche de classification (Head) au-dessus du modèle BERT de base et à entraîner l'ensemble sur un dataset étiqueté.
+
+```python
+from transformers import BertTokenizer, BertForSequenceClassification
+import torch
+
+# Chargement du tokenizer et du modèle pré-entraîné
+model_name = "bert-base-uncased"
+tokenizer = BertTokenizer.from_pretrained(model_name)
+model = BertForSequenceClassification.from_pretrained(model_name, num_labels=2)
+
+# Tokenisation d'un exemple
+text = "Cet outil est indispensable pour tout ingénieur IA."
+inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True, max_length=128)
+```
+
+## 2. Le Trainer API de Hugging Face
+
+Plutôt que d'écrire votre propre boucle d'entraînement PyTorch, utilisez l'API `Trainer` qui gère automatiquement le logging, le gradient accumulation et le mix-precision training.
+
+```python
+from transformers import TrainingArguments, Trainer
+
+training_args = TrainingArguments(
+    output_dir="./results",
+    num_train_epochs=3,
+    per_device_train_batch_size=16,
+    warmup_steps=500,
+    weight_decay=0.01,
+    logging_dir="./logs",
+    evaluation_strategy="epoch"
+)
+
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=train_dataset,
+    eval_dataset=test_dataset
+)
+
+# Lancement du Fine-tuning
+trainer.train()
+```
+
+> **Insight d'ingénieur** : Le fine-tuning de BERT est très sensible aux hyperparamètres. Utilisez un taux d'apprentissage très bas (entre 2e-5 et 5e-5) pour éviter de "catastrophiquement oublier" les connaissances pré-entraînées du modèle.
+
+## 3. Évaluation et Inférence
+
+Une fois entraîné, le modèle peut être utilisé pour prédire des classes sur de nouvelles données avec une précision souvent supérieure à 90% sur des tâches de sentiment analysis.
+
+```python
+# Inférence rapide
+with torch.no_grad():
+    logits = model(**inputs).logits
+    predicted_class = torch.argmax(logits, dim=1).item()
+
+print(f"Classe prédite : {predicted_class}")
+```
+
+## Liens et Références
+
+- [Papier original BERT (Devlin et al.)](https://arxiv.org/abs/1810.04805)
+- [Modèles BERT sur Hugging Face Hub](https://huggingface.co/models?search=bert)
+
+## Conclusion
+
+Le fine-tuning est la clé pour obtenir des performances d'état de l'art en NLP sans avoir les ressources pour entraîner un modèle de zéro. BERT reste, malgré l'avènement des LLMs génératifs, le roi pour les tâches de classification et d'extraction d'entités.

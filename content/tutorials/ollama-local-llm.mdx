@@ -1,0 +1,73 @@
+---
+title: "Souveraineté Maximale : LLM Local avec Ollama"
+description: "Dites adieu aux APIs coûteuses et aux problèmes de confidentialité. Apprenez à déployer et orchestrer Llama 3, Mistral ou Phi-3 localement sur votre infrastructure."
+difficulty: "Débutant"
+duration: "15 min"
+technologies: ["Ollama", "Python", "Llama 3", "Mistral"]
+category: "Infrastucture IA"
+date: "2026-02-01"
+---
+
+# L'Ère de l'IA Locale
+
+L'exécution locale des LLMs n'est plus réservée aux détenteurs de supercalculateurs. Grâce à des outils comme **Ollama**, vous pouvez désormais faire tourner des modèles de 7B à 70B paramètres sur un MacBook Pro ou une station de travail équipée d'un GPU grand public.
+
+## 1. Installation et Premier Lancement
+
+Ollama simplifie le déploiement en encapsulant les runtimes complexes (comme llama.cpp) dans une interface simple.
+
+```bash
+# Installation sur Linux/MacOS via curl (ou téléchargement sur Windows)
+curl -fsSL https://ollama.com/install.sh | sh
+
+# Téléchargement et lancement immédiat de Llama 3
+ollama run llama3
+```
+
+## 2. Personnalisation via les "Modelfiles"
+
+La force d'Ollama est de vous permettre de créer vos propres variantes de modèles. Vous pouvez définir un "System Prompt" spécifique pour transformer un modèle généraliste en un expert technique.
+
+```bash
+# Création d'un Modelfile
+cat <<EOF > MyExpert.modelfile
+FROM llama3
+PARAMETER temperature 0.2
+SYSTEM """Tu es un expert en cybersécurité senior. Tes réponses doivent être concises, techniques et centrées sur la remédiation."""
+EOF
+
+# Création du modèle personnalisé
+ollama create cyberexpert -f MyExpert.modelfile
+```
+
+## 3. Automatisation Python
+
+Pour intégrer Ollama dans vos applications, utilisez la bibliothèque Python officielle. Elle permet une interaction asynchrone et le streaming des réponses.
+
+```python
+import ollama
+
+# Interaction simple
+response = ollama.chat(model='llama3', messages=[
+  {
+    'role': 'user',
+    'content': 'Explique-moi les avantages du format GGUF pour les LLMs.',
+  },
+])
+
+print(response['message']['content'])
+```
+
+### Pourquoi choisir l'IA locale ?
+- **Confidentialité** : Vos données ne quittent jamais votre machine.
+- **Coût** : Pas de facturation aux tokens. Idéal pour le batch processing massif.
+- **Latence** : Pas de dépendance au réseau (une fois le modèle téléchargé).
+
+## Ressources Utiles
+
+- [Liste complète des modèles supportés](https://ollama.com/library)
+- [Guide avancé : Quantization et formats de modèles](https://github.com/ollama/ollama/blob/main/docs/modelfile.md)
+
+## Conclusion
+
+Ollama est le pont parfait entre la recherche en IA et l'utilisation pratique au quotidien. C'est l'outil de base pour tout développeur souhaitant intégrer de l'IA sans compromettre la sécurité des données.

@@ -1,0 +1,88 @@
+---
+title: "Construire un Système RAG Robuste avec LangChain"
+description: "Passez du prototype à la production. Apprenez à implémenter une architecture de Retrieval Augmented Generation (RAG) avec gestion sémantique des documents et réduction des hallucinations."
+difficulty: "Intermédiaire"
+duration: "30 min"
+technologies: ["LangChain", "ChromaDB", "Ollama", "Python"]
+category: "Architecture IA"
+date: "2026-02-08"
+---
+
+# L'Architecture RAG : Au-delà du Chatbot
+
+Le **RAG (Retrieval Augmented Generation)** est devenu le standard industriel pour connecter les LLMs à des bases de connaissances privées. Cette architecture permet d'ancrer les réponses du modèle dans des faits vérifiables, réduisant drastiquement les hallucinations.
+
+## 1. Pipeline d'Ingestion des Données
+
+La qualité d'un système RAG dépend à 80% de la qualité de l'ingestion. Nous utilisons LangChain pour orchestrer le chargement et le découpage (chunking) intelligent.
+
+```python
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+# 1. Chargement
+loader = PyPDFLoader("document_strategique.pdf")
+docs = loader.load()
+
+# 2. Chunking intelligent (chevauchement pour garder le contexte)
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1000,
+    chunk_overlap=200,
+    add_start_index=True
+)
+all_splits = text_splitter.split_documents(docs)
+```
+
+## 2. Vector Store et Recherche Sémantique
+
+Une fois découpés, les documents sont transformés en vecteurs (embeddings) et stockés dans une base de données vectorielle comme **ChromaDB**.
+
+```python
+from langchain_community.vectorstores import Chroma
+from langchain_community.embeddings import OllamaEmbeddings
+
+# Initialisation du vector store
+vectorstore = Chroma.from_documents(
+    documents=all_splits, 
+    embedding=OllamaEmbeddings(model="nomic-embed-text")
+)
+
+# Création du retriever
+retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+```
+
+## 3. La Chaîne de Génération (RAG Chain)
+
+La dernière étape consiste à fusionner le contexte récupéré avec la question de l'utilisateur dans un prompt structuré.
+
+```python
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_community.llms import Ollama
+
+template = """Répondez à la question en vous basant uniquement sur le contexte suivant :
+{context}
+
+Question : {question}
+"""
+prompt = ChatPromptTemplate.from_template(template)
+model = Ollama(model="llama3")
+
+# Orchestration de la chaîne
+def rag_chain(question):
+    context = retriever.invoke(question)
+    formatted_prompt = prompt.format(context=context, question=question)
+    return model.invoke(formatted_prompt)
+
+print(rag_chain("Quelle est la stratégie pour 2026 ?"))
+```
+
+> **Avertissement de production** : En production, ne vous contentez pas d'un simple retriever. Utilisez des techniques de **Re-ranking** (via Cohere ou BGE) pour améliorer la pertinence du contexte envoyé au LLM.
+
+## Ressources Complémentaires
+
+- [Documentation officielle LangChain](https://python.langchain.com/docs/get_started/introduction)
+- [Comparatif des Vector Databases 2026](https://www.vellum.ai/blog/the-ultimate-guide-to-vector-databases)
+
+## Conclusion
+
+Le RAG est une discipline en soi. Ce guide vous donne les bases, mais l'optimisation des embeddings et du prompt engineering sera votre prochain grand défi.

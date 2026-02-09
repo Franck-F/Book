@@ -1,0 +1,71 @@
+---
+title: "Maîtriser PyTorch : Fondations du Deep Learning"
+description: "Plongez dans l'architecture interne de PyTorch. De la manipulation avancée des tenseurs à la conception de réseaux neuronaux modulaires pour la production."
+difficulty: "Débutant"
+duration: "20 min"
+technologies: ["PyTorch", "Python", "Deep Learning", "CUDA"]
+category: "Deep Learning"
+date: "2026-02-09"
+---
+
+# L'Essence de PyTorch : Tenseurs et Autograd
+
+PyTorch n'est pas seulement une bibliothèque de Deep Learning ; c'est un moteur de calcul numérique accéléré par GPU avec un système de **différenciation automatique** (Autograd) extrêmement flexible.
+
+## 1. Au-delà des Tenseurs Basiques
+
+Un tenseur dans PyTorch est l'abstraction fondamentale. Contrairement à NumPy, les tenseurs PyTorch peuvent résider sur des accélérateurs matériels comme les GPU (via CUDA) ou les TPUs.
+
+```python
+import torch
+
+# Création d'un tenseur sur GPU s'il est disponible
+device = "cuda" if torch.cuda.is_available() else "cpu"
+x = torch.randn(3, 3, device=device)
+
+print(f"Propriétés du tenseur :\n - Forme : {x.shape}\n - Type : {x.dtype}\n - Device : {x.device}")
+```
+
+> **Note d'expert** : Utilisez toujours des types de données appropriés. Pour la plupart des modèles de Deep Learning, `float32` est le standard, mais le `bfloat16` gagne en popularité sur les architectures récentes pour optimiser la mémoire.
+
+## 2. Le Graphe de Calcul Dynamique
+
+La puissance de PyTorch réside dans son graphe de calcul dynamique (Define-by-Run). Le graphe est construit à la volée lors de chaque passage forward, ce qui permet d'utiliser des structures de contrôle Python classiques (if, for) au sein de vos modèles.
+
+```python
+# Exemple simple d'autograd
+w = torch.tensor([1.0], requires_grad=True)
+x = torch.tensor([2.0])
+y = w * x
+y.backward()
+
+print(f"Gradient de w : {w.grad}") # Devrait être 2.0
+```
+
+## 3. Architecture Modulaire avec nn.Module
+
+Pour construire des systèmes complexes, nous utilisons `torch.nn.Module`. Cette classe gère la sérialisation des paramètres, le basculement entre les devices et les hooks de diagnostic.
+
+```python
+import torch.nn as nn
+
+class ResidualBlock(nn.Module):
+    def __init__(self, in_features):
+        super().__init__()
+        self.fc = nn.Linear(in_features, in_features)
+        self.activation = nn.ReLU()
+
+    def forward(self, x):
+        return x + self.activation(self.fc(x)) # Connexion résiduelle
+```
+
+### Pourquoi l'approche modulaire ?
+- **Réutilisabilité** : Composez des modèles complexes à partir de blocs simples.
+- **Gestion des paramètres** : Accédez facilement à tous les poids via `model.parameters()`.
+- **Hooks** : Intégrez des outils comme Weights & Biases ou TensorBoard sans effort.
+
+## Conclusion et Prochaines Étapes
+
+Nous avons effleuré la surface. La prochaine étape est de comprendre comment optimiser ces modèles à l'aide de techniques comme le **Gradient Clipping** et les **Learning Rate Schedulers**.
+
+[Consulter la documentation officielle de PyTorch](https://pytorch.org/docs/stable/index.html)
