@@ -27,50 +27,11 @@ A high-performance portfolio and research journal designed for AI Engineers and 
 | **Icons** | Lucide React |
 | **Content Management** | Local MDX with gray-matter parsing |
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18.x or higher
-- npm or pnpm
-
-### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/Franck-F/Book.git
-
-# Install dependencies
-cd Book
-npm install
-
-# Start development server with Turbopack
-npm run dev
-```
-
-The application will be available at `http://localhost:3000`.
-
-## Project Organization
-
-- `app/`: Routing and main view components (Blog, Projects, Tutorials).
-- `components/`: Modular UI system, including the custom MDX renderer.
-- `content/`: Structured technical content in MDX (Research journal and guides).
-- `lib/`: Core logic, including MDX parsing and design tokens.
-- `public/`: Static assets and media.
-
 ## Content Management Guidelines
 
 ### Research Journal (Blog)
 
 Articles should be placed in `content/blog/` with standard frontmatter including title, date, category, and readingTime.
-
-### Technical Tutorials
-
-Guides should be placed in `content/tutorials/` and will be automatically categorized by the thematic engine based on the `category` field.
-
-## Deployment
-
-Continuous Deployment is configured via Netlify. Each push to the `main` branch triggers an optimized build using the `netlify.toml` specifications.
 
 ## License
 

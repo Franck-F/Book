@@ -2,7 +2,7 @@ import { getTutorials } from '@/lib/mdx';
 import Navbar from '@/components/navigation/Navbar';
 import Footer from '@/components/navigation/Footer';
 import CategorizedFolder from '@/components/ui/CategorizedFolder';
-import { Zap, Boxes, FlaskConical } from 'lucide-react';
+import { Brain, Code2, Database, Terminal } from 'lucide-react';
 
 export const metadata = {
     title: 'Tutoriels | Apprentissage Data & IA',
@@ -12,28 +12,50 @@ export const metadata = {
 export default function TutorialsPage() {
     const tutorials = getTutorials();
 
-    const difficulties = [
+    // Group tutorials by topical category
+    const categories = [
         {
-            name: 'Débutant',
-            icon: <Zap className="w-6 h-6 text-green-400" />,
-            color: 'green' as const,
-        },
-        {
-            name: 'Intermédiaire',
-            icon: <Boxes className="w-6 h-6 text-primary-400" />,
+            name: 'Architectures LLM & NLP',
+            icon: <Brain className="w-6 h-6 text-primary-400" />,
             color: 'primary' as const,
         },
         {
-            name: 'Avancé',
-            icon: <FlaskConical className="w-6 h-6 text-accent-400" />,
+            name: 'Deep Learning Foundations',
+            icon: <Code2 className="w-6 h-6 text-accent-400" />,
             color: 'accent' as const,
+        },
+        {
+            name: 'Infrastructure & IA Locale',
+            icon: <Terminal className="w-6 h-6 text-purple-400" />,
+            color: 'purple' as const,
+        },
+        {
+            name: 'Data Engineering & Performance',
+            icon: <Database className="w-6 h-6 text-green-400" />,
+            color: 'green' as const,
         },
     ];
 
-    const tutorialsByDifficulty = difficulties.map((diff) => ({
-        ...diff,
-        items: tutorials.filter((t) => t.difficulty === diff.name),
-    })).filter((diff) => diff.items.length > 0);
+    const tutorialsByCategory = categories.map((cat) => ({
+        ...cat,
+        items: tutorials.filter((t: any) => t.category === cat.name),
+    })).filter((cat) => cat.items.length > 0);
+
+    // Dynamic grouping for any extra categories
+    const extraCategories = tutorials
+        .map(t => t.category)
+        .filter(cat => cat && !categories.some(c => c.name === cat));
+
+    const uniqueExtras = Array.from(new Set(extraCategories));
+
+    uniqueExtras.forEach(extra => {
+        tutorialsByCategory.push({
+            name: extra || 'Autres',
+            icon: <Code2 className="w-6 h-6 text-slate-400" />,
+            color: 'primary' as const,
+            items: tutorials.filter(t => t.category === extra)
+        });
+    });
 
     return (
         <>
@@ -46,19 +68,19 @@ export default function TutorialsPage() {
                             Centre d&apos;<span className="text-primary-500">Apprentissage</span>
                         </h1>
                         <p className="text-xl text-slate-400 max-w-2xl mx-auto font-sans leading-relaxed">
-                            Maîtrisez les outils et techniques de l&apos;IA avec des guides structurés par niveau de complexité.
+                            Maîtrisez les outils et techniques de l&apos;IA avec des guides structurés par thématiques expertes.
                         </p>
                     </div>
 
                     {/* Categorized Folders */}
                     <div className="max-w-4xl mx-auto space-y-6">
-                        {tutorialsByDifficulty.map((difficulty) => (
+                        {tutorialsByCategory.map((category) => (
                             <CategorizedFolder
-                                key={difficulty.name}
-                                title={difficulty.name}
-                                items={difficulty.items}
-                                icon={difficulty.icon}
-                                color={difficulty.color}
+                                key={category.name}
+                                title={category.name}
+                                items={category.items}
+                                icon={category.icon}
+                                color={category.color}
                                 basePath="/tutorials"
                                 type="tutorial"
                             />
