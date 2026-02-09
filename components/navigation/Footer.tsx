@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState } from "react"
-import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { Github, Linkedin, Mail, Instagram, Calendar, Send, CheckCircle2 } from "lucide-react"
 
@@ -30,14 +29,6 @@ export default function Footer() {
         { icon: Calendar, href: "https://calendly.com/franckfambou/30min", label: "Calendly" },
     ]
 
-    const navLinks = [
-        { name: "Accueil", href: "/" },
-        { name: "Portfolio", href: "/portfolio" },
-        { name: "Projets", href: "/projects" },
-        { name: "Blog", href: "/blog" },
-        { name: "Contact", href: "/contact" },
-    ]
-
     return (
         <footer className="relative bg-slate-950 pt-24 pb-12 overflow-hidden border-t border-white/5">
             {/* Background Decorative Circles */}
@@ -55,26 +46,6 @@ export default function Footer() {
                         <div className="absolute inset-0 rounded-full bg-primary-500/10 group-hover:bg-primary-500/20 transition-all duration-500 blur-md" />
                         <span className="text-2xl font-bold text-white relative z-10 font-display">FF</span>
                     </motion.div>
-
-                    {/* Stacked Links */}
-                    <div className="flex flex-wrap justify-center gap-6 md:gap-12 mb-12">
-                        {navLinks.map((link, idx) => (
-                            <motion.div
-                                key={link.name}
-                                initial={{ opacity: 0, y: 10 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: idx * 0.1 }}
-                            >
-                                <Link
-                                    href={link.href}
-                                    className="text-slate-400 hover:text-white transition-colors font-medium relative group"
-                                >
-                                    {link.name}
-                                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 group-hover:w-full transition-all duration-300" />
-                                </Link>
-                            </motion.div>
-                        ))}
-                    </div>
 
                     {/* Newsletter Section */}
                     <motion.div
