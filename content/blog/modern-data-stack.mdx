@@ -1,0 +1,56 @@
+---
+title: "Maîtriser la Modern Data Stack : Snowflake, dbt & Fivetran"
+description: "L'ingénierie des données a radicalement changé. Découvrez comment orchestrer un pipeline ELT moderne, performant et scalable pour 2026."
+date: "2026-02-18"
+category: "Architecture de Données"
+readingTime: 10
+tags: ["Snowflake", "dbt", "Fivetran", "Modern Data Stack"]
+---
+
+# L'Émergence du Paradigme ELT
+
+Fini l'époque des ETL (Extract, Transform, Load) rigides et coûteux. En 2026, la **Modern Data Stack** repose sur le principe de l'**ELT** : on charge d'abord les données brutes dans un Data Warehouse ultra-performant, puis on les transforme directement en SQL.
+
+## 1. Fivetran : L'Ingestion sans Effort
+
+La première brique est l'ingestion. Fivetran permet de connecter des centaines de sources (SaaS, DBs, Logs) sans écrire une seule ligne de code Python complexe. L'objectif est d'avoir une réplication fidèle du schéma source dans votre zone de "Staging".
+
+## 2. Snowflake : Le Cœur Réactant
+
+Snowflake reste le standard pour le stockage et le calcul. Sa capacité à séparer le stockage du compute permet de gérer des pics de charge massifs sans impacter les coûts latents.
+
+| Caractéristique | Bénéfice |
+| :--- | :--- |
+| **Separation of Storage/Compute** | Scalabilité indépendante et gestion fine des coûts. |
+| **Data Sharing** | Partage de données en temps réel sans copie. |
+| **Zero-Copy Cloning** | Création d'environnements de test instantanés. |
+
+## 3. dbt : Le Software Engineering appliqué à la Data
+
+C'est ici que la magie opère. **dbt (data build tool)** permet aux Data Engineers de travailler comme des ingénieurs logiciel :
+
+- **Modularité** : Décomposez vos transformations complexes en modèles SQL réutilisables.
+- **Tests** : Validez l'intégrité de vos données à chaque build (tests d'unicité, non-nullité, etc.).
+- **Documentation** : Générez automatiquement un line-age (graphe de dépendances) de vos données.
+
+```sql
+-- Exemple de modèle dbt : stg_orders.sql
+with source as (
+    select * from {{ source('raw_data', 'orders') }}
+),
+renamed as (
+    select
+        id as order_id,
+        user_id,
+        order_date,
+        status
+    from source
+)
+select * from renamed
+```
+
+## Conclusion
+
+Une Modern Data Stack bien orchestrée réduit le temps de mise à jour des rapports de quelques jours à quelques minutes. En investissant dans dbt et Snowflake, vous débloquez une agilité analytique sans précédent.
+
+[Découvrez mes audits d'architecture data](/contact)

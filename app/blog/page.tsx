@@ -30,12 +30,12 @@ export default function BlogPage() {
             color: 'green' as const,
         },
         {
-            name: 'Web Engineering',
-            icon: <Code2 className="w-6 h-6 text-blue-400" />,
+            name: 'Architecture de Données',
+            icon: <Database className="w-6 h-6 text-blue-400" />,
             color: 'blue' as const,
         },
         {
-            name: 'Design System',
+            name: 'Analytics Engineering',
             icon: <Brain className="w-6 h-6 text-purple-400" />,
             color: 'purple' as const,
         }
