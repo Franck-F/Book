@@ -16,19 +16,19 @@ export default function ProjectsPage() {
     const categories = [
         {
             name: 'Intelligence Artificielle',
-            slug: 'fullstack',
+            slug: 'ia',
             icon: <Cpu className="w-6 h-6 text-primary-400" />,
             color: 'primary',
         },
         {
-            name: 'Machine Learning',
-            slug: 'mobile',
+            name: 'Machine Learning & DL',
+            slug: 'ml',
             icon: <Code2 className="w-6 h-6 text-accent-400" />,
             color: 'accent',
         },
         {
-            name: 'Data Science',
-            slug: 'web',
+            name: 'Data Science & Analytics',
+            slug: 'ds',
             icon: <Globe className="w-6 h-6 text-green-400" />,
             color: 'green',
         },
