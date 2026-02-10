@@ -2,10 +2,5 @@
   command = "npm run build"
   publish = ".next"
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
-[build.environment]
-  NODE_VERSION = "20"
+# Let Next.js handle routing. The previous /* -> /index.html redirect
+# was likely intercepting image requests and breaking them in production.
