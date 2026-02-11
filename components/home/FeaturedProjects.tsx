@@ -19,7 +19,7 @@ export default function FeaturedProjects() {
                         Projets Phares
                     </h2>
                     <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-                        Découvrez une sélection de mes meilleurs projets
+                        Découvrez une sélection de quelques projets
                     </p>
                 </div>
 

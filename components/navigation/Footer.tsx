@@ -8,17 +8,20 @@ export default function Footer() {
     const currentYear = new Date().getFullYear()
     const [email, setEmail] = useState("")
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+    const BEEHIIV_PUB_ID = "9c185407-f087-4961-96e1-1828ca13fdc7"
 
-    const handleSubscribe = async (e: React.FormEvent) => {
+    const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if (!email) return
-
+        const target = e.currentTarget
         setStatus('loading')
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500))
+        // High-tech transition delay
+        await new Promise(resolve => setTimeout(resolve, 800))
         setStatus('success')
-        setEmail("")
-        setTimeout(() => setStatus('idle'), 5000)
+
+        // Native submission to Beehiiv
+        target.submit()
+
+        setTimeout(() => setStatus('idle'), 6000)
     }
 
     const socialLinks = [
@@ -62,9 +65,17 @@ export default function Footer() {
                                     Recevez mes dernières analyses et tutoriels directement dans votre boîte mail.
                                 </p>
 
-                                <form onSubmit={handleSubscribe} className="relative flex items-center">
+                                <form
+                                    action="https://www.beehiiv.com/new-subscription"
+                                    method="post"
+                                    target="footer-beehiiv-frame"
+                                    onSubmit={handleSubscribe}
+                                    className="relative flex items-center"
+                                >
+                                    <input type="hidden" name="publication_id" value={BEEHIIV_PUB_ID} />
                                     <input
                                         type="email"
+                                        name="email"
                                         placeholder="votre@email.com"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
@@ -75,8 +86,8 @@ export default function Footer() {
                                         type="submit"
                                         disabled={status === 'loading' || status === 'success'}
                                         className={`absolute right-2 p-3 rounded-full transition-all ${status === 'success'
-                                                ? 'bg-green-500 text-white'
-                                                : 'bg-primary-500 hover:bg-primary-600 text-white shadow-lg shadow-primary-500/20'
+                                            ? 'bg-green-500 text-white'
+                                            : 'bg-primary-500 hover:bg-primary-600 text-white shadow-lg shadow-primary-500/20'
                                             }`}
                                     >
                                         {status === 'loading' ? (
@@ -88,6 +99,9 @@ export default function Footer() {
                                         )}
                                     </button>
                                 </form>
+
+                                {/* Hidden iframe for silent submission */}
+                                <iframe name="footer-beehiiv-frame" title="Newsletter Subscription" className="hidden" />
 
                                 <AnimatePresence>
                                     {status === 'success' && (

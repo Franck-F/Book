@@ -60,15 +60,24 @@ export default function TutorialsPage() {
     return (
         <>
             <Navbar />
-            <main className="min-h-screen pt-40 pb-20 bg-slate-950">
-                <div className="container mx-auto px-4">
+            <main className="min-h-screen pt-40 pb-20 mesh-bg overflow-hidden relative">
+                <div className="absolute inset-0 z-0 opacity-20 pointer-events-none animate-mesh bg-[length:50px_50px] bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)]" />
+
+                <div className="container mx-auto px-4 relative z-10">
                     {/* Header */}
-                    <div className="text-center mb-16 animate-fade-in">
-                        <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white font-display">
-                            Centre d&apos;<span className="text-primary-500">Apprentissage</span>
+                    <div className="text-center mb-24 animate-fade-in">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary-500/20 bg-primary-500/5 text-primary-400 text-[10px] font-bold uppercase tracking-widest mb-6">
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
+                            </span>
+                            Transfert de Savoir
+                        </div>
+                        <h1 className="text-5xl md:text-8xl font-bold mb-8 text-white font-display tracking-tight">
+                            Nexus- <span className="text-primary-500">Tutorials</span>
                         </h1>
-                        <p className="text-xl text-slate-400 max-w-2xl mx-auto font-sans leading-relaxed">
-                            Maîtrisez les outils et techniques de l&apos;IA avec des guides structurés par thématiques expertes.
+                        <p className="text-xl text-slate-400 max-w-3xl mx-auto font-sans leading-relaxed">
+                            Maîtrisez les outils et techniques de l&apos;IA moderne avec des guides structurés par thématiques expertes et déploiements réels.
                         </p>
                     </div>
 

@@ -25,6 +25,11 @@
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+
+  /* Custom Glow Colors */
+  --color-cyber-blue: #0ea5e9;
+  --color-cyber-purple: #d946ef;
+  --color-cyber-green: #22c55e;
 }
 
 @layer base {
@@ -42,14 +47,61 @@
   }
 }
 
-/* Premium Glassmorphism */
+/* AI Mesh Background */
+.mesh-bg {
+  position: relative;
+  background-color: #020617;
+}
+
+.mesh-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(14, 165, 233, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14, 165, 233, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  mask-image: radial-gradient(circle at center, black, transparent 80%);
+  pointer-events: none;
+}
+
+/* Premium Glassmorphism 2.0 */
 .glass {
   @apply bg-white/5 backdrop-blur-xl border border-white/10;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
+.glass-premium {
+  @apply bg-slate-900/40 backdrop-blur-2xl border border-white/5;
+  box-shadow:
+    0 10px 40px -10px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.05);
+}
+
 .glass-hover {
-  @apply hover:bg-white/10 hover:border-white/20 transition-all duration-300;
+  @apply hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:shadow-[0_0_30px_rgba(14, 165, 233, 0.15)];
+}
+
+/* Active Nexus Border */
+.nexus-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.nexus-border::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid transparent;
+  background: linear-gradient(90deg, var(--color-cyber-blue), var(--color-cyber-purple)) border-box;
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.nexus-border:hover::after {
+  opacity: 0.5;
 }
 
 /* Gradient Text */
@@ -58,6 +110,20 @@
 }
 
 /* Animations */
+@keyframes mesh-drift {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-50px);
+  }
+}
+
+.animate-mesh {
+  animation: mesh-drift 20s linear infinite;
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;

@@ -4,7 +4,7 @@ import { getContentBySlug, getProjects } from '@/lib/mdx';
 import { ProjectMetadata } from '@/lib/content-types';
 import Navbar from '@/components/navigation/Navbar';
 import Footer from '@/components/navigation/Footer';
-import { Calendar, Github, Globe, ChevronLeft, ArrowRight } from 'lucide-react';
+import { Calendar, Github, Globe, ChevronLeft, Binary, Cpu, Layers } from 'lucide-react';
 import Link from 'next/link';
 import { formatDate } from '@/lib/utils';
 import MarkdownRenderer from '@/components/mdx/MarkdownRenderer';
@@ -47,48 +47,82 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     return (
         <>
             <Navbar />
-            <main className="min-h-screen bg-slate-950 pt-40 pb-20">
-                <div className="container mx-auto px-4">
+            <main className="min-h-screen pt-40 pb-20 mesh-bg overflow-hidden relative">
+                {/* Background Mesh Animation */}
+                <div className="absolute inset-0 z-0 opacity-20 pointer-events-none animate-mesh bg-[length:50px_50px] bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)]" />
+
+                <div className="container mx-auto px-4 relative z-10">
                     {/* Breadcrumbs & Actions */}
-                    <div className="flex flex-wrap items-center justify-between gap-4 mb-12 max-w-5xl mx-auto">
+                    <div className="flex flex-wrap items-center justify-between gap-4 mb-16 max-w-5xl mx-auto">
                         <Link
                             href="/projects"
-                            className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors group"
+                            className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors group px-4 py-2 rounded-xl bg-white/5 border border-white/5 backdrop-blur-sm"
                         >
-                            <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
-                            Revenir aux projets
+                            <ChevronLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+                            <span className="text-sm font-bold uppercase tracking-wider">Archives</span>
                         </Link>
 
                         <TutorialActions title={metadata.title} slug={slug} />
                     </div>
 
                     <div className="max-w-4xl mx-auto">
-                        <div className="mb-12">
-                            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 font-display">
+                        {/* Project Dossier Header */}
+                        <div className="relative mb-16">
+                            <div className="absolute -left-4 top-0 w-1 h-24 bg-gradient-to-b from-primary-500 to-transparent rounded-full hidden md:block" />
+
+                            <div className="mb-6 flex items-center gap-3">
+                                <span className="px-3 py-1 bg-primary-500/10 text-primary-400 rounded-lg text-[10px] font-bold uppercase tracking-[0.2em] border border-primary-500/20">
+                                    Project Dossier // {metadata.category.toUpperCase()}
+                                </span>
+                            </div>
+
+                            <h1 className="text-4xl md:text-7xl font-bold text-white mb-8 font-display tracking-tight leading-tight">
                                 {metadata.title}
                             </h1>
-                            <div className="flex flex-wrap gap-4 text-slate-400 mb-8">
-                                <div className="flex items-center gap-2">
-                                    <Calendar size={18} />
-                                    <span>{formatDate(metadata.date)}</span>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-8 border-y border-white/5 mb-12">
+                                <div className="flex items-center gap-4 group">
+                                    <div className="p-3 rounded-lg bg-white/5 border border-white/5 group-hover:border-primary-500/30 transition-colors">
+                                        <Calendar size={20} className="text-primary-400" />
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-0.5">Date Entrée</p>
+                                        <p className="text-white font-medium">{formatDate(metadata.date)}</p>
+                                    </div>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <span className="px-3 py-1 bg-primary-500/10 text-primary-400 rounded-full text-sm border border-primary-500/20">
-                                        {metadata.category}
-                                    </span>
+                                <div className="flex items-center gap-4 group">
+                                    <div className="p-3 rounded-lg bg-white/5 border border-white/5 group-hover:border-primary-500/30 transition-colors">
+                                        <Layers size={20} className="text-primary-400" />
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-0.5">Classification</p>
+                                        <p className="text-white font-medium">{metadata.category === 'ia' ? 'Intelligence Artificielle' : metadata.category === 'ml' ? 'Machine Learning' : 'Data Science'}</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-4 group">
+                                    <div className="p-3 rounded-lg bg-white/5 border border-white/5 group-hover:border-primary-500/30 transition-colors">
+                                        <Binary size={20} className="text-primary-400" />
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-0.5">Statut</p>
+                                        <div className="flex items-center gap-1.5 text-green-400 font-medium">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                                            DÉPLOYÉ
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div className="flex gap-4">
+                            <div className="flex flex-wrap gap-4">
                                 {metadata.github && (
                                     <a
                                         href={metadata.github}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-white transition-all shadow-lg"
+                                        className="inline-flex items-center gap-2 px-8 py-4 glass-premium hover:bg-white/10 border border-white/10 rounded-2xl text-white transition-all group"
                                     >
-                                        <Github size={20} />
-                                        Code Source
+                                        <Github size={20} className="group-hover:scale-110 transition-transform" />
+                                        <span className="font-bold tracking-tight">Accéder au Code</span>
                                     </a>
                                 )}
                                 {metadata.demo && (
@@ -96,32 +130,40 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                                         href={metadata.demo}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 px-6 py-3 bg-primary-500 hover:bg-primary-600 rounded-full text-white transition-all shadow-lg shadow-primary-500/25"
+                                        className="inline-flex items-center gap-2 px-8 py-4 bg-primary-500 hover:bg-primary-600 rounded-2xl text-white transition-all shadow-xl shadow-primary-500/25 group"
                                     >
-                                        <Globe size={20} />
-                                        Démo Live
+                                        <Globe size={20} className="group-hover:rotate-12 transition-transform" />
+                                        <span className="font-bold tracking-tight">Voir la Démo</span>
                                     </a>
                                 )}
                             </div>
                         </div>
 
-                        {/* Technologies */}
-                        <div className="mb-12">
-                            <h2 className="text-xl font-semibold text-white mb-4">Technologies utilisées</h2>
-                            <div className="flex flex-wrap gap-2">
-                                {metadata.technologies.map((tech: string) => (
-                                    <span
-                                        key={tech}
-                                        className="px-4 py-2 bg-slate-900 border border-white/5 rounded-lg text-slate-300"
-                                    >
-                                        {tech}
-                                    </span>
-                                ))}
+                        {/* Technologies Module */}
+                        <div className="mb-20 glass-premium border border-white/5 rounded-3xl p-8 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-4 opacity-5">
+                                <Cpu size={120} />
+                            </div>
+                            <div className="relative z-10">
+                                <h2 className="text-lg font-bold text-white mb-6 flex items-center gap-2 font-display uppercase tracking-widest">
+                                    <Binary size={18} className="text-primary-400" />
+                                    Stack Technologique
+                                </h2>
+                                <div className="flex flex-wrap gap-3">
+                                    {metadata.technologies.map((tech: string) => (
+                                        <span
+                                            key={tech}
+                                            className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-slate-300 text-sm font-medium hover:text-white hover:border-primary-500/30 transition-colors"
+                                        >
+                                            {tech}
+                                        </span>
+                                    ))}
+                                </div>
                             </div>
                         </div>
 
-                        {/* Content */}
-                        <div className="article-body">
+                        {/* Content Module */}
+                        <div className="article-body relative px-4 md:px-0">
                             <MarkdownRenderer content={content} />
                         </div>
                     </div>
