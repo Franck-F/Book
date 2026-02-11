@@ -51,7 +51,7 @@ export default function NewsletterModule() {
                                     Transmission Hebdomadaire
                                 </div>
                                 <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 font-display tracking-tight leading-tight">
-                                    Abonnez-vous au <span className="text-primary-500">Nexus</span>
+                                    Abonnez-vous au <span className="text-primary-500">Lab</span>
                                 </h2>
                                 <p className="text-lg text-slate-400 leading-relaxed font-sans">
                                     Recevez des analyses exclusives sur l&apos;IA, des tutoriels techniques et les coulisses de mes recherches directement dans votre flux.

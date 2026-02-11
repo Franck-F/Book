@@ -42,7 +42,7 @@ export default function ContactPage() {
                 <div className="absolute inset-0 z-0 opacity-20 pointer-events-none animate-mesh bg-[length:50px_50px] bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)]" />
 
                 <div className="max-w-7xl mx-auto px-4 relative z-10">
-                    {/* Unique Cyber-Nexus Header */}
+                    {/* Unique Cyber-Lab Header */}
                     <div className="text-center mb-24 animate-fade-in">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary-500/20 bg-primary-500/5 text-primary-400 text-[10px] font-bold uppercase tracking-widest mb-6">
                             <span className="relative flex h-2 w-2">
@@ -52,7 +52,7 @@ export default function ContactPage() {
                             Uplink Direct : Établissement de Connexion
                         </div>
                         <h1 className="text-5xl md:text-8xl font-bold mb-8 text-white font-display tracking-tight">
-                            Nexus- <span className="text-primary-500">Contact</span>
+                            Lab- <span className="text-primary-500">Contact</span>
                         </h1>
                         <p className="text-xl text-slate-400 max-w-2xl mx-auto font-sans leading-relaxed">
                             Projet, collaboration ou simple échange technique : initiez une transmission sécurisée vers mon environnement.

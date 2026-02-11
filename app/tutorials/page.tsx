@@ -38,7 +38,7 @@ export default function TutorialsPage() {
 
     const tutorialsByCategory = categories.map((cat) => ({
         ...cat,
-        items: tutorials.filter((t: any) => t.category === cat.name),
+        items: tutorials.filter((t) => t.category === cat.name),
     })).filter((cat) => cat.items.length > 0);
 
     // Dynamic grouping for any extra categories
@@ -74,7 +74,7 @@ export default function TutorialsPage() {
                             Transfert de Savoir
                         </div>
                         <h1 className="text-5xl md:text-8xl font-bold mb-8 text-white font-display tracking-tight">
-                            Nexus- <span className="text-primary-500">Tutorials</span>
+                            Lab- <span className="text-primary-500">Tutorials</span>
                         </h1>
                         <p className="text-xl text-slate-400 max-w-3xl mx-auto font-sans leading-relaxed">
                             Maîtrisez les outils et techniques de l&apos;IA moderne avec des guides structurés par thématiques expertes et déploiements réels.

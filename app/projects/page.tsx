@@ -57,7 +57,7 @@ export default function ProjectsPage() {
                             Ingénierie de Point
                         </div>
                         <h1 className="text-5xl md:text-8xl font-bold mb-8 text-white font-display tracking-tight">
-                            Nexus- <span className="text-primary-500">Projets</span>
+                            Lab- <span className="text-primary-500">Projets</span>
                         </h1>
                         <p className="text-xl text-slate-400 max-w-3xl mx-auto font-sans leading-relaxed">
                             Exploration de l&apos;ingénierie des données, du deep learning et du déploiement de solutions d&apos;IA éthiques au sein d&apos;un écosystème modulaire.
